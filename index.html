@@ -3,318 +3,565 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="theme-color" content="#090b18">
 <title>GameVerse</title>
 
 <style>
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }
 
-body {
-    background: #0b1020;
-    color: white;
-    min-height: 100vh;
+:root{
+    --bg:#070914;
+    --panel:#101426;
+    --panel2:#151b31;
+    --text:#f5f7ff;
+    --muted:#9ba4c7;
+    --primary:#7c5cff;
+    --secondary:#00d9ff;
+    --danger:#ff4d6d;
+    --success:#39e58c;
+    --border:rgba(255,255,255,.1);
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:
+        radial-gradient(circle at 20% 10%,rgba(124,92,255,.22),transparent 30%),
+        radial-gradient(circle at 80% 20%,rgba(0,217,255,.13),transparent 28%),
+        var(--bg);
+    color:var(--text);
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+button,input{
+    font:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.hidden{
+    display:none!important;
 }
 
 /* ================= LOGIN ================= */
 
-#loginPage {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    background:
-        radial-gradient(circle at top, #253b80, transparent 40%),
-        #0b1020;
+#authScreen{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+    position:relative;
+    overflow:hidden;
 }
 
-.login-box {
-    width: 100%;
-    max-width: 400px;
-    background: rgba(20, 27, 50, 0.95);
-    padding: 35px;
-    border-radius: 20px;
-    box-shadow: 0 0 40px rgba(0, 140, 255, 0.3);
-    text-align: center;
+.auth-bg{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
 }
 
-.logo {
-    font-size: 40px;
-    font-weight: bold;
-    color: #42a5ff;
-    margin-bottom: 10px;
+.orb{
+    position:absolute;
+    width:280px;
+    height:280px;
+    border-radius:50%;
+    filter:blur(80px);
+    opacity:.3;
+    animation:float 7s ease-in-out infinite;
 }
 
-.login-box p {
-    color: #aaa;
-    margin-bottom: 25px;
+.orb.one{
+    background:#7c5cff;
+    top:-100px;
+    left:-70px;
 }
 
-.login-box input {
-    width: 100%;
-    padding: 14px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 10px;
-    background: #252d48;
-    color: white;
-    outline: none;
+.orb.two{
+    background:#00d9ff;
+    bottom:-120px;
+    right:-70px;
+    animation-delay:2s;
 }
 
-.login-box input:focus {
-    border: 1px solid #42a5ff;
+@keyframes float{
+    50%{transform:translateY(35px) scale(1.08)}
 }
 
-.login-box button {
-    width: 100%;
-    padding: 14px;
-    margin-top: 15px;
-    border: none;
-    border-radius: 10px;
-    background: #1677ff;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
+.auth-card{
+    position:relative;
+    z-index:2;
+    width:min(440px,100%);
+    padding:35px;
+    border:1px solid var(--border);
+    border-radius:28px;
+    background:rgba(16,20,38,.82);
+    backdrop-filter:blur(25px);
+    box-shadow:0 30px 80px rgba(0,0,0,.45);
 }
 
-.login-box button:hover {
-    background: #3990ff;
+.logo{
+    text-align:center;
+    margin-bottom:25px;
 }
 
-#error {
-    color: #ff5555;
-    margin-top: 12px;
+.logo-icon{
+    width:70px;
+    height:70px;
+    margin:auto;
+    border-radius:22px;
+    display:grid;
+    place-items:center;
+    font-size:32px;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    box-shadow:0 0 35px rgba(124,92,255,.35);
 }
 
-/* ================= DASHBOARD ================= */
-
-#dashboard {
-    display: none;
+.logo h1{
+    margin-top:15px;
+    font-size:30px;
 }
 
-header {
-    background: #121a31;
-    padding: 18px 25px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #263354;
+.logo p{
+    color:var(--muted);
+    margin-top:7px;
 }
 
-header h1 {
-    color: #42a5ff;
+.tabs{
+    display:flex;
+    gap:8px;
+    background:#090c19;
+    padding:5px;
+    border-radius:13px;
+    margin-bottom:22px;
 }
 
-.logout {
-    background: #ff4757;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 8px;
-    color: white;
-    cursor: pointer;
+.tab{
+    flex:1;
+    border:0;
+    background:transparent;
+    color:var(--muted);
+    padding:11px;
+    border-radius:9px;
 }
 
-.container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 30px 20px;
+.tab.active{
+    background:linear-gradient(135deg,var(--primary),#5940e9);
+    color:white;
 }
 
-.welcome {
-    margin-bottom: 25px;
+.form-group{
+    margin-bottom:15px;
 }
 
-.welcome h2 {
-    font-size: 30px;
+.form-group label{
+    display:block;
+    font-size:13px;
+    color:var(--muted);
+    margin-bottom:7px;
 }
 
-.welcome p {
-    color: #aaa;
-    margin-top: 5px;
+.form-group input{
+    width:100%;
+    border:1px solid var(--border);
+    outline:none;
+    background:#090c19;
+    color:white;
+    padding:14px;
+    border-radius:12px;
+    transition:.2s;
 }
 
-/* ================= GAME CARDS ================= */
-
-.games {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
+.form-group input:focus{
+    border-color:var(--primary);
+    box-shadow:0 0 0 3px rgba(124,92,255,.12);
 }
 
-.game-card {
-    background: #151e38;
-    border: 1px solid #263354;
-    border-radius: 18px;
-    padding: 25px;
-    text-align: center;
-    transition: 0.25s;
+.main-btn{
+    width:100%;
+    border:0;
+    padding:14px;
+    border-radius:12px;
+    color:white;
+    font-weight:bold;
+    background:linear-gradient(135deg,var(--primary),#5940e9);
+    box-shadow:0 10px 25px rgba(124,92,255,.25);
+    transition:.2s;
 }
 
-.game-card:hover {
-    transform: translateY(-6px);
-    border-color: #42a5ff;
-    box-shadow: 0 10px 30px rgba(0, 140, 255, 0.2);
+.main-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 15px 30px rgba(124,92,255,.35);
 }
 
-.game-icon {
-    font-size: 55px;
-    margin-bottom: 15px;
+.message{
+    min-height:20px;
+    text-align:center;
+    font-size:13px;
+    margin-top:13px;
 }
 
-.game-card h3 {
-    margin-bottom: 8px;
+.error{color:#ff7189}
+.success{color:var(--success)}
+
+/* ================= APP ================= */
+
+#app{
+    min-height:100vh;
 }
 
-.game-card p {
-    color: #999;
-    margin-bottom: 18px;
+.navbar{
+    position:sticky;
+    top:0;
+    z-index:20;
+    height:70px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 5%;
+    border-bottom:1px solid var(--border);
+    background:rgba(7,9,20,.78);
+    backdrop-filter:blur(18px);
 }
 
-.play-btn {
-    background: #1677ff;
-    border: none;
-    color: white;
-    padding: 11px 25px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
+.nav-brand{
+    font-size:21px;
+    font-weight:900;
 }
 
-/* ================= GAME AREA ================= */
-
-#gameArea {
-    display: none;
-    max-width: 700px;
-    margin: 30px auto;
-    padding: 20px;
-    text-align: center;
+.nav-brand span{
+    color:var(--secondary);
 }
 
-.back-btn {
-    background: #303b5d;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    margin-bottom: 20px;
+.user-area{
+    display:flex;
+    align-items:center;
+    gap:12px;
 }
 
-#gameTitle {
-    margin-bottom: 20px;
+.user-name{
+    color:var(--muted);
+    font-size:14px;
 }
 
-/* ================= TIC TAC TOE ================= */
-
-.tic-board {
-    display: grid;
-    grid-template-columns: repeat(3, 100px);
-    gap: 8px;
-    justify-content: center;
+.logout{
+    border:1px solid var(--border);
+    background:#11162a;
+    color:white;
+    border-radius:10px;
+    padding:9px 13px;
 }
 
-.tic-cell {
-    width: 100px;
-    height: 100px;
-    background: #1c2745;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 40px;
-    cursor: pointer;
+.hero{
+    text-align:center;
+    padding:70px 20px 40px;
 }
 
-/* ================= CLICKER ================= */
-
-.clicker-score {
-    font-size: 35px;
-    margin: 20px;
+.hero h2{
+    font-size:clamp(36px,7vw,70px);
+    line-height:1;
+    background:linear-gradient(90deg,#fff,var(--secondary),var(--primary));
+    -webkit-background-clip:text;
+    color:transparent;
 }
 
-.big-click {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    border: none;
-    background: #1677ff;
-    color: white;
-    font-size: 25px;
-    cursor: pointer;
-    box-shadow: 0 0 30px rgba(22,119,255,0.5);
+.hero p{
+    color:var(--muted);
+    max-width:600px;
+    margin:18px auto 0;
 }
 
-.big-click:active {
-    transform: scale(0.95);
+.container{
+    width:min(1100px,92%);
+    margin:auto;
 }
 
-/* ================= MEMORY ================= */
-
-.memory-board {
-    display: grid;
-    grid-template-columns: repeat(4, 80px);
-    gap: 10px;
-    justify-content: center;
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:15px;
+    margin-bottom:35px;
 }
 
-.memory-card {
-    width: 80px;
-    height: 80px;
-    background: #1c2745;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    cursor: pointer;
+.stat{
+    padding:20px;
+    border:1px solid var(--border);
+    border-radius:18px;
+    background:rgba(16,20,38,.65);
+    text-align:center;
 }
 
-/* ================= SNAKE ================= */
-
-#snakeCanvas {
-    background: black;
-    border: 2px solid #42a5ff;
-    max-width: 100%;
+.stat strong{
+    display:block;
+    font-size:26px;
+    color:var(--secondary);
 }
 
-/* ================= MOBILE ================= */
+.stat span{
+    color:var(--muted);
+    font-size:13px;
+}
 
-@media(max-width:600px) {
+.section-title{
+    margin-bottom:18px;
+}
 
-    header {
-        padding: 15px;
+.games{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+    padding-bottom:60px;
+}
+
+.game-card{
+    border:1px solid var(--border);
+    background:linear-gradient(145deg,rgba(21,27,49,.9),rgba(10,13,27,.9));
+    border-radius:24px;
+    padding:26px;
+    transition:.25s;
+    overflow:hidden;
+}
+
+.game-card:hover{
+    transform:translateY(-5px);
+    border-color:rgba(124,92,255,.5);
+    box-shadow:0 20px 45px rgba(0,0,0,.25);
+}
+
+.game-icon{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.game-card h3{
+    font-size:24px;
+    margin-bottom:8px;
+}
+
+.game-card p{
+    color:var(--muted);
+    line-height:1.5;
+    margin-bottom:20px;
+}
+
+.play-btn{
+    border:0;
+    color:white;
+    background:linear-gradient(135deg,var(--primary),var(--secondary));
+    padding:12px 20px;
+    border-radius:11px;
+    font-weight:bold;
+}
+
+/* ================= GAME MODAL ================= */
+
+.modal{
+    position:fixed;
+    z-index:100;
+    inset:0;
+    background:rgba(0,0,0,.78);
+    backdrop-filter:blur(8px);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+}
+
+.game-window{
+    width:min(850px,100%);
+    max-height:95vh;
+    overflow:auto;
+    background:#0d1122;
+    border:1px solid var(--border);
+    border-radius:24px;
+    padding:20px;
+}
+
+.game-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.close-btn{
+    border:0;
+    background:#1b2138;
+    color:white;
+    width:40px;
+    height:40px;
+    border-radius:10px;
+}
+
+.game-info{
+    display:flex;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:12px;
+}
+
+.info-box{
+    background:#141a30;
+    padding:9px 13px;
+    border-radius:10px;
+    font-size:14px;
+}
+
+.game-canvas-wrap{
+    position:relative;
+    width:100%;
+    display:flex;
+    justify-content:center;
+}
+
+canvas{
+    display:block;
+    width:100%;
+    max-width:760px;
+    background:#050713;
+    border:1px solid var(--border);
+    border-radius:15px;
+    touch-action:none;
+}
+
+.game-controls{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin-top:15px;
+}
+
+.control-btn{
+    border:1px solid var(--border);
+    color:white;
+    background:#141a30;
+    padding:11px 18px;
+    border-radius:10px;
+}
+
+.control-btn.primary{
+    background:var(--primary);
+    border:0;
+}
+
+/* SHOOTER */
+
+#shooterCanvas{
+    aspect-ratio:16/9;
+}
+
+.shooter-tip{
+    text-align:center;
+    color:var(--muted);
+    font-size:13px;
+    margin-top:10px;
+}
+
+.level-screen{
+    position:absolute;
+    inset:0;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    background:rgba(5,7,19,.82);
+    border-radius:15px;
+    backdrop-filter:blur(4px);
+}
+
+.level-screen h2{
+    font-size:35px;
+    margin-bottom:8px;
+}
+
+.level-screen p{
+    color:var(--muted);
+    margin-bottom:18px;
+}
+
+/* SNAKE */
+
+#snakeCanvas{
+    max-width:500px;
+    aspect-ratio:1;
+}
+
+.d-pad{
+    display:grid;
+    grid-template-columns:repeat(3,55px);
+    gap:6px;
+    justify-content:center;
+    margin-top:14px;
+}
+
+.d-pad button{
+    width:55px;
+    height:45px;
+    border:1px solid var(--border);
+    background:#141a30;
+    color:white;
+    border-radius:9px;
+}
+
+.d-up{grid-column:2}
+.d-left{grid-column:1}
+.d-down{grid-column:2}
+.d-right{grid-column:3}
+
+/* TOAST */
+
+#toast{
+    position:fixed;
+    z-index:300;
+    right:20px;
+    bottom:20px;
+    padding:13px 18px;
+    border-radius:12px;
+    background:#151b31;
+    border:1px solid var(--border);
+    box-shadow:0 10px 30px rgba(0,0,0,.3);
+    transform:translateY(100px);
+    opacity:0;
+    transition:.3s;
+}
+
+#toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+@media(max-width:700px){
+    .auth-card{
+        padding:25px 20px;
     }
 
-    header h1 {
-        font-size: 22px;
+    .stats{
+        grid-template-columns:1fr;
     }
 
-    .welcome h2 {
-        font-size: 24px;
+    .games{
+        grid-template-columns:1fr;
     }
 
-    .tic-board {
-        grid-template-columns: repeat(3, 80px);
+    .navbar{
+        padding:0 4%;
     }
 
-    .tic-cell {
-        width: 80px;
-        height: 80px;
+    .user-name{
+        display:none;
     }
 
-    .memory-board {
-        grid-template-columns: repeat(4, 65px);
-    }
-
-    .memory-card {
-        width: 65px;
-        height: 65px;
+    .hero{
+        padding-top:45px;
     }
 }
 </style>
@@ -322,624 +569,460 @@ header h1 {
 
 <body>
 
-<!-- ================= LOGIN ================= -->
+<!-- ================= AUTH ================= -->
 
-<section id="loginPage">
+<section id="authScreen">
 
-    <div class="login-box">
-
-        <div class="logo">🎮 GameVerse</div>
-
-        <p>Play multiple games in one place</p>
-
-        <input
-            type="text"
-            id="username"
-            placeholder="Enter username"
-        >
-
-        <input
-            type="password"
-            id="password"
-            placeholder="Enter password"
-        >
-
-        <button onclick="login()">LOGIN</button>
-
-        <div id="error"></div>
-
+    <div class="auth-bg">
+        <div class="orb one"></div>
+        <div class="orb two"></div>
     </div>
 
+    <div class="auth-card">
+
+        <div class="logo">
+            <div class="logo-icon">🎮</div>
+            <h1>GameVerse</h1>
+            <p>Your mini gaming universe</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" id="loginTab">Login</button>
+            <button class="tab" id="registerTab">Register</button>
+        </div>
+
+        <form id="authForm">
+
+            <div class="form-group">
+                <label>Username</label>
+                <input id="username" type="text" maxlength="20"
+                       placeholder="Enter username" required>
+            </div>
+
+            <div class="form-group">
+                <label>Password</label>
+                <input id="password" type="password"
+                       placeholder="Enter password" minlength="4" required>
+            </div>
+
+            <div id="confirmGroup" class="form-group hidden">
+                <label>Confirm Password</label>
+                <input id="confirmPassword" type="password"
+                       placeholder="Confirm password">
+            </div>
+
+            <button class="main-btn" id="authButton" type="submit">
+                Login
+            </button>
+
+            <div id="authMessage" class="message"></div>
+
+        </form>
+
+    </div>
 </section>
 
 
-<!-- ================= DASHBOARD ================= -->
+<!-- ================= APP ================= -->
 
-<section id="dashboard">
+<section id="app" class="hidden">
 
-<header>
+    <nav class="navbar">
 
-    <h1>🎮 GameVerse</h1>
+        <div class="nav-brand">
+            GAME<span>VERSE</span>
+        </div>
 
-    <button class="logout" onclick="logout()">
-        Logout
-    </button>
+        <div class="user-area">
+            <span class="user-name">
+                Welcome, <b id="displayUsername"></b>
+            </span>
 
-</header>
+            <button class="logout" id="logoutBtn">
+                Logout
+            </button>
+        </div>
 
-<div class="container">
+    </nav>
 
-    <div class="welcome">
-
-        <h2>
-            Welcome, <span id="playerName"></span> 👋
-        </h2>
-
+    <header class="hero">
+        <h2>PLAY. LEVEL UP.<br>HAVE FUN.</h2>
         <p>
-            Choose a game and start playing!
+            Challenge yourself with increasingly difficult games
+            and beat your personal records.
         </p>
+    </header>
 
-    </div>
+    <main class="container">
 
-    <div class="games">
+        <div class="stats">
+            <div class="stat">
+                <strong id="gamesPlayed">0</strong>
+                <span>Games Played</span>
+            </div>
 
-        <div class="game-card">
+            <div class="stat">
+                <strong id="bestScore">0</strong>
+                <span>Best Score</span>
+            </div>
 
-            <div class="game-icon">❌⭕</div>
+            <div class="stat">
+                <strong id="highestLevel">1</strong>
+                <span>Highest Level</span>
+            </div>
+        </div>
 
-            <h3>Tic-Tac-Toe</h3>
+        <h2 class="section-title">🎮 Games</h2>
 
-            <p>Classic 2-player game</p>
+        <div class="games">
 
-            <button
-                class="play-btn"
-                onclick="openGame('tic')">
-                PLAY
-            </button>
+            <!-- SHOOTING GAME -->
+
+            <article class="game-card">
+
+                <div class="game-icon">🔫</div>
+
+                <h3>Neon Shooter</h3>
+
+                <p>
+                    Destroy enemies, survive waves and progress through
+                    increasingly challenging levels.
+                </p>
+
+                <button class="play-btn" id="openShooter">
+                    PLAY SHOOTER
+                </button>
+
+            </article>
+
+
+            <!-- SNAKE -->
+
+            <article class="game-card">
+
+                <div class="game-icon">🐍</div>
+
+                <h3>Neon Snake</h3>
+
+                <p>
+                    Collect food, grow longer and beat your highest score.
+                    Use the on-screen controls on mobile.
+                </p>
+
+                <button class="play-btn" id="openSnake">
+                    PLAY SNAKE
+                </button>
+
+            </article>
 
         </div>
 
-
-        <div class="game-card">
-
-            <div class="game-icon">🐍</div>
-
-            <h3>Snake</h3>
-
-            <p>Eat food and grow!</p>
-
-            <button
-                class="play-btn"
-                onclick="openGame('snake')">
-                PLAY
-            </button>
-
-        </div>
-
-
-        <div class="game-card">
-
-            <div class="game-icon">🧠</div>
-
-            <h3>Memory Match</h3>
-
-            <p>Find matching cards</p>
-
-            <button
-                class="play-btn"
-                onclick="openGame('memory')">
-                PLAY
-            </button>
-
-        </div>
-
-
-        <div class="game-card">
-
-            <div class="game-icon">🖱️</div>
-
-            <h3>Clicker</h3>
-
-            <p>Click as fast as you can!</p>
-
-            <button
-                class="play-btn"
-                onclick="openGame('clicker')">
-                PLAY
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- ================= GAME AREA ================= -->
-
-<div id="gameArea">
-
-    <button class="back-btn" onclick="backToMenu()">
-        ← Back to Games
-    </button>
-
-    <h2 id="gameTitle"></h2>
-
-    <div id="gameContent"></div>
-
-</div>
+    </main>
 
 </section>
+
+
+<!-- ================= SHOOTER MODAL ================= -->
+
+<div id="shooterModal" class="modal hidden">
+
+    <div class="game-window">
+
+        <div class="game-header">
+            <div>
+                <h2>🔫 Neon Shooter</h2>
+                <small>Click/tap enemies to destroy them</small>
+            </div>
+
+            <button class="close-btn" id="closeShooter">✕</button>
+        </div>
+
+        <div class="game-info">
+            <div class="info-box">
+                Level: <b id="shootLevel">1</b>
+            </div>
+
+            <div class="info-box">
+                Score: <b id="shootScore">0</b>
+            </div>
+
+            <div class="info-box">
+                Health: <b id="shootHealth">100</b>
+            </div>
+
+            <div class="info-box">
+                Enemies: <b id="shootEnemies">0</b>
+            </div>
+        </div>
+
+        <div class="game-canvas-wrap">
+
+            <canvas id="shooterCanvas"
+                    width="760"
+                    height="428"></canvas>
+
+            <div id="levelScreen" class="level-screen">
+
+                <h2 id="levelTitle">LEVEL 1</h2>
+
+                <p id="levelDescription">
+                    Destroy the enemies!
+                </p>
+
+                <button class="play-btn" id="startLevel">
+                    START LEVEL
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="game-controls">
+
+            <button class="control-btn" id="restartShooter">
+                🔄 Restart
+            </button>
+
+            <button class="control-btn" id="nextLevel">
+                ⏭ Next Level
+            </button>
+
+        </div>
+
+        <div class="shooter-tip">
+            💡 Every level increases enemy speed and difficulty.
+        </div>
+
+    </div>
+</div>
+
+
+<!-- ================= SNAKE MODAL ================= -->
+
+<div id="snakeModal" class="modal hidden">
+
+    <div class="game-window">
+
+        <div class="game-header">
+
+            <div>
+                <h2>🐍 Neon Snake</h2>
+                <small>Eat food and grow!</small>
+            </div>
+
+            <button class="close-btn" id="closeSnake">✕</button>
+
+        </div>
+
+        <div class="game-info">
+
+            <div class="info-box">
+                Score: <b id="snakeScore">0</b>
+            </div>
+
+            <div class="info-box">
+                Best: <b id="snakeBest">0</b>
+            </div>
+
+        </div>
+
+        <div class="game-canvas-wrap">
+
+            <canvas id="snakeCanvas"
+                    width="500"
+                    height="500"></canvas>
+
+        </div>
+
+        <div class="game-controls">
+
+            <button class="control-btn primary" id="restartSnake">
+                🔄 Restart Snake
+            </button>
+
+        </div>
+
+        <div class="d-pad">
+
+            <button class="d-up" data-dir="up">▲</button>
+
+            <button class="d-left" data-dir="left">◀</button>
+
+            <button class="d-down" data-dir="down">▼</button>
+
+            <button class="d-right" data-dir="right">▶</button>
+
+        </div>
+
+    </div>
+</div>
+
+
+<div id="toast"></div>
 
 
 <script>
 
-/* ================= LOGIN ================= */
+/* =========================================================
+   DATA / ACCOUNT SYSTEM
+   ========================================================= */
 
-function login() {
+const USERS_KEY = "gameverse_users";
+const SESSION_KEY = "gameverse_session";
+const STATS_KEY = "gameverse_stats";
 
-    let username =
-        document.getElementById("username").value;
+let users = getUsers();
 
-    let password =
+function getUsers(){
+    try{
+        return JSON.parse(localStorage.getItem(USERS_KEY)) || {};
+    }catch(error){
+        console.error("Could not load users:", error);
+        return {};
+    }
+}
+
+function saveUsers(){
+    try{
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+        return true;
+    }catch(error){
+        console.error("Could not save users:", error);
+        showToast("Storage error. Your browser may block storage.");
+        return false;
+    }
+}
+
+function getCurrentUser(){
+    return localStorage.getItem(SESSION_KEY);
+}
+
+function setSession(username){
+    localStorage.setItem(SESSION_KEY, username);
+}
+
+function clearSession(){
+    localStorage.removeItem(SESSION_KEY);
+}
+
+
+/* =========================================================
+   AUTH UI
+   ========================================================= */
+
+let authMode = "login";
+
+const loginTab = document.getElementById("loginTab");
+const registerTab = document.getElementById("registerTab");
+const confirmGroup = document.getElementById("confirmGroup");
+const confirmPassword = document.getElementById("confirmPassword");
+const authButton = document.getElementById("authButton");
+const authMessage = document.getElementById("authMessage");
+
+function setAuthMode(mode){
+
+    authMode = mode;
+
+    loginTab.classList.toggle("active",mode === "login");
+    registerTab.classList.toggle("active",mode === "register");
+
+    confirmGroup.classList.toggle("hidden",mode !== "register");
+
+    confirmPassword.required = mode === "register";
+
+    authButton.textContent =
+        mode === "login" ? "Login" : "Create Account";
+
+    authMessage.textContent = "";
+    authMessage.className = "message";
+}
+
+loginTab.addEventListener("click",()=>setAuthMode("login"));
+registerTab.addEventListener("click",()=>setAuthMode("register"));
+
+
+document.getElementById("authForm").addEventListener("submit",(event)=>{
+
+    event.preventDefault();
+
+    const username =
+        document.getElementById("username").value.trim();
+
+    const password =
         document.getElementById("password").value;
 
-    if(username === "" || password === "") {
-
-        document.getElementById("error").innerText =
-            "Please enter username and password.";
-
+    if(username.length < 3){
+        showAuthMessage(
+            "Username must contain at least 3 characters.",
+            "error"
+        );
         return;
     }
 
-    document.getElementById("loginPage").style.display =
-        "none";
-
-    document.getElementById("dashboard").style.display =
-        "block";
-
-    document.getElementById("playerName").innerText =
-        username;
-}
-
-
-function logout() {
-
-    document.getElementById("dashboard").style.display =
-        "none";
-
-    document.getElementById("loginPage").style.display =
-        "flex";
-
-}
-
-
-/* ================= GAME SYSTEM ================= */
-
-function openGame(game) {
-
-    document.querySelector(".container").style.display =
-        "none";
-
-    document.getElementById("gameArea").style.display =
-        "block";
-
-    if(game === "tic") {
-        ticTacToe();
-    }
-
-    if(game === "clicker") {
-        clicker();
-    }
-
-    if(game === "memory") {
-        memoryGame();
-    }
-
-    if(game === "snake") {
-        snakeGame();
-    }
-
-}
-
-
-function backToMenu() {
-
-    document.getElementById("gameArea").style.display =
-        "none";
-
-    document.querySelector(".container").style.display =
-        "block";
-
-}
-
-
-/* ================= TIC TAC TOE ================= */
-
-function ticTacToe() {
-
-    document.getElementById("gameTitle").innerText =
-        "❌⭕ Tic-Tac-Toe";
-
-    let html = `
-        <div class="tic-board" id="ticBoard"></div>
-
-        <br>
-
-        <h3 id="ticStatus">Player X's turn</h3>
-
-        <br>
-
-        <button class="play-btn" onclick="ticTacToe()">
-            Restart
-        </button>
-    `;
-
-    document.getElementById("gameContent").innerHTML =
-        html;
-
-    let board =
-        ["","","","","","","","",""];
-
-    let player = "X";
-
-    let cells = "";
-
-    for(let i = 0; i < 9; i++) {
-
-        cells += `
-            <div class="tic-cell"
-                 onclick="makeMove(${i})">
-            </div>
-        `;
-
-    }
-
-    document.getElementById("ticBoard").innerHTML =
-        cells;
-
-    window.ticBoardData = board;
-    window.ticPlayer = player;
-
-}
-
-
-function makeMove(index) {
-
-    if(window.ticBoardData[index] !== "")
-        return;
-
-    window.ticBoardData[index] =
-        window.ticPlayer;
-
-    document.querySelectorAll(".tic-cell")[index]
-        .innerText = window.ticPlayer;
-
-    if(checkWinner()) {
-
-        document.getElementById("ticStatus")
-            .innerText =
-            "🎉 Player " +
-            window.ticPlayer +
-            " wins!";
-
+    if(password.length < 4){
+        showAuthMessage(
+            "Password must contain at least 4 characters.",
+            "error"
+        );
         return;
     }
 
-    window.ticPlayer =
-        window.ticPlayer === "X" ? "O" : "X";
 
-    document.getElementById("ticStatus")
-        .innerText =
-        "Player " +
-        window.ticPlayer +
-        "'s turn";
-}
+    /* REGISTER */
 
+    if(authMode === "register"){
 
-function checkWinner() {
-
-    const wins = [
-
-        [0,1,2],
-        [3,4,5],
-        [6,7,8],
-
-        [0,3,6],
-        [1,4,7],
-        [2,5,8],
-
-        [0,4,8],
-        [2,4,6]
-
-    ];
-
-    return wins.some(combo => {
-
-        let a =
-            window.ticBoardData[combo[0]];
-
-        let b =
-            window.ticBoardData[combo[1]];
-
-        let c =
-            window.ticBoardData[combo[2]];
-
-        return a && a === b && b === c;
-
-    });
-
-}
-
-
-/* ================= CLICKER ================= */
-
-function clicker() {
-
-    document.getElementById("gameTitle").innerText =
-        "🖱️ Clicker";
-
-    document.getElementById("gameContent").innerHTML = `
-
-        <div class="clicker-score">
-            Score:
-            <span id="clickScore">0</span>
-        </div>
-
-        <button class="big-click"
-                onclick="addClick()">
-            CLICK!
-        </button>
-
-    `;
-
-    window.clickScore = 0;
-
-}
-
-
-function addClick() {
-
-    window.clickScore++;
-
-    document.getElementById("clickScore")
-        .innerText = window.clickScore;
-
-}
-
-
-/* ================= MEMORY ================= */
-
-function memoryGame() {
-
-    document.getElementById("gameTitle").innerText =
-        "🧠 Memory Match";
-
-    let symbols =
-        ["🍎","🍎","🍕","🍕","🚗","🚗","⭐","⭐"];
-
-    symbols.sort(() => Math.random() - 0.5);
-
-    let html =
-        `<div class="memory-board">`;
-
-    symbols.forEach((symbol, index) => {
-
-        html += `
-            <div class="memory-card"
-                 onclick="flipCard(this, '${symbol}')">
-                ❓
-            </div>
-        `;
-
-    });
-
-    html += `</div>`;
-
-    document.getElementById("gameContent").innerHTML =
-        html;
-
-    window.firstCard = null;
-    window.lockBoard = false;
-
-}
-
-
-function flipCard(card, symbol) {
-
-    if(window.lockBoard)
-        return;
-
-    if(card.innerText !== "❓")
-        return;
-
-    card.innerText = symbol;
-
-    if(!window.firstCard) {
-
-        window.firstCard = {
-            card: card,
-            symbol: symbol
-        };
-
-        return;
-    }
-
-    if(window.firstCard.symbol === symbol) {
-
-        window.firstCard = null;
-
-    } else {
-
-        window.lockBoard = true;
-
-        let first = window.firstCard.card;
-
-        setTimeout(() => {
-
-            first.innerText = "❓";
-            card.innerText = "❓";
-
-            window.firstCard = null;
-            window.lockBoard = false;
-
-        }, 700);
-
-    }
-
-}
-
-
-/* ================= SNAKE ================= */
-
-function snakeGame() {
-
-    document.getElementById("gameTitle").innerText =
-        "🐍 Snake";
-
-    document.getElementById("gameContent").innerHTML = `
-
-        <canvas
-            id="snakeCanvas"
-            width="400"
-            height="400">
-        </canvas>
-
-        <p style="margin-top:15px;">
-            Use Arrow Keys or swipe on mobile
-        </p>
-
-        <br>
-
-        <button class="play-btn"
-                onclick="startSnake()">
-            Start Snake
-        </button>
-
-    `;
-
-}
-
-
-function startSnake() {
-
-    const canvas =
-        document.getElementById("snakeCanvas");
-
-    const ctx =
-        canvas.getContext("2d");
-
-    let snake = [
-        {x: 200, y: 200}
-    ];
-
-    let food = {
-        x: 100,
-        y: 100
-    };
-
-    let dx = 20;
-    let dy = 0;
-
-    document.onkeydown = function(e) {
-
-        if(e.key === "ArrowUp" && dy === 0) {
-            dx = 0;
-            dy = -20;
-        }
-
-        if(e.key === "ArrowDown" && dy === 0) {
-            dx = 0;
-            dy = 20;
-        }
-
-        if(e.key === "ArrowLeft" && dx === 0) {
-            dx = -20;
-            dy = 0;
-        }
-
-        if(e.key === "ArrowRight" && dx === 0) {
-            dx = 20;
-            dy = 0;
-        }
-
-    };
-
-
-    function gameLoop() {
-
-        let head = {
-            x: snake[0].x + dx,
-            y: snake[0].y + dy
-        };
-
-        if(
-            head.x < 0 ||
-            head.y < 0 ||
-            head.x >= 400 ||
-            head.y >= 400
-        ) {
-
-            alert("Game Over!");
-
+        if(users[username]){
+            showAuthMessage(
+                "That username is already registered.",
+                "error"
+            );
             return;
         }
 
-
-        snake.unshift(head);
-
-
-        if(
-            head.x === food.x &&
-            head.y === food.y
-        ) {
-
-            food.x =
-                Math.floor(Math.random() * 20) * 20;
-
-            food.y =
-                Math.floor(Math.random() * 20) * 20;
-
-        } else {
-
-            snake.pop();
-
+        if(password !== confirmPassword.value){
+            showAuthMessage(
+                "Passwords do not match.",
+                "error"
+            );
+            return;
         }
 
+        users[username] = {
+            password: password,
+            created: new Date().toISOString()
+        };
 
-        ctx.clearRect(0,0,400,400);
+        if(!saveUsers()){
+            return;
+        }
 
+        setSession(username);
 
-        ctx.fillStyle = "lime";
-
-        snake.forEach(part => {
-
-            ctx.fillRect(
-                part.x,
-                part.y,
-                18,
-                18
-            );
-
-        });
-
-
-        ctx.fillStyle = "red";
-
-        ctx.fillRect(
-            food.x,
-            food.y,
-            18,
-            18
+        showAuthMessage(
+            "Account created successfully!",
+            "success"
         );
 
+        setTimeout(showApp,500);
+
+        return;
     }
 
-    setInterval(gameLoop, 120);
 
-}
+    /* LOGIN */
 
-</script>
+    if(!users[username]){
+        showAuthMessage(
+            "Account not found. Please register first.",
+            "error"
+        );
+        return;
+    }
 
-</body>
-</html>
+    if(users[username].password !== password){
+        showAuthMessage(
+            "Incorrect password.",
+            "error"
+        );
+ 
