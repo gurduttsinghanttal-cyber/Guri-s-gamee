@@ -3,23 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#03040a">
 <title>Guri's Game</title>
 
 <style>
+
+/* =========================
+   GLOBAL
+========================= */
+
 *{
     box-sizing:border-box;
     margin:0;
     padding:0;
 }
 
+html{
+    scroll-behavior:smooth;
+}
+
 body{
-    font-family:Arial,sans-serif;
-    background:#080b16;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#050711;
     color:white;
     min-height:100vh;
 }
 
-button,input{
+button,
+input{
     font:inherit;
 }
 
@@ -27,320 +38,724 @@ button{
     cursor:pointer;
 }
 
-/* LOGIN */
+.hidden{
+    display:none!important;
+}
+
+
+/* =========================
+   LOGIN BACKGROUND
+========================= */
 
 #loginPage{
     min-height:100vh;
     display:flex;
-    align-items:center;
     justify-content:center;
+    align-items:center;
     padding:20px;
-    background:
-        radial-gradient(circle at 20% 20%,#5635d955,transparent 30%),
-        radial-gradient(circle at 80% 80%,#00d9ff33,transparent 30%),
-        #080b16;
+    position:relative;
+    overflow:hidden;
+    background:#03040a;
 }
 
-.loginBox{
+.cyber-bg{
+    position:absolute;
+    inset:0;
+    overflow:hidden;
+}
+
+.grid{
+    position:absolute;
+    inset:-50%;
+
+    background-image:
+        linear-gradient(#00eaff12 1px,transparent 1px),
+        linear-gradient(90deg,#00eaff12 1px,transparent 1px);
+
+    background-size:45px 45px;
+
+    transform:
+        perspective(500px)
+        rotateX(55deg);
+
+    animation:gridMove 12s linear infinite;
+}
+
+@keyframes gridMove{
+
+    from{
+        transform:
+            perspective(500px)
+            rotateX(55deg)
+            translateY(0);
+    }
+
+    to{
+        transform:
+            perspective(500px)
+            rotateX(55deg)
+            translateY(45px);
+    }
+
+}
+
+.glow{
+    position:absolute;
+    width:350px;
+    height:350px;
+    border-radius:50%;
+    filter:blur(100px);
+    opacity:.25;
+}
+
+.glow1{
+    background:#704cff;
+    top:-150px;
+    left:-120px;
+}
+
+.glow2{
+    background:#00eaff;
+    right:-120px;
+    bottom:-150px;
+}
+
+
+/* =========================
+   LOGIN BOX
+========================= */
+
+.cyber-login{
     width:100%;
-    max-width:420px;
-    padding:35px;
-    border-radius:25px;
-    background:#111629;
-    border:1px solid #ffffff15;
-    box-shadow:0 25px 70px #0008;
+    max-width:410px;
+
+    position:relative;
+    z-index:2;
+
+    padding:38px 32px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(17,22,42,.96),
+            rgba(6,9,20,.98)
+        );
+
+    border:1px solid #00eaff2b;
+
+    border-radius:20px;
+
+    box-shadow:
+        0 0 50px #00eaff12,
+        0 30px 80px #000b;
 }
 
-.gameLogo{
-    text-align:center;
-    margin-bottom:28px;
-}
+.mini-logo{
+    width:65px;
+    height:65px;
 
-.logoCircle{
-    width:75px;
-    height:75px;
     margin:auto;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:30px;
+
+    border-radius:18px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #704cff,
+            #00d9ff
+        );
+
+    box-shadow:
+        0 0 30px #00d9ff35;
+}
+
+.cyber-login h1{
+    text-align:center;
+    margin-top:18px;
+
+    font-size:30px;
+    letter-spacing:3px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #00eaff,
+            #8060ff
+        );
+
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.subtitle{
+    text-align:center;
+
+    margin-top:7px;
+    margin-bottom:27px;
+
+    font-size:12px;
+    letter-spacing:4px;
+
+    color:#69738f;
+}
+
+
+/* =========================
+   LOGIN TABS
+========================= */
+
+.mode-switch{
+    display:flex;
+
+    padding:4px;
+    margin-bottom:22px;
+
+    background:#02040a;
+
+    border:1px solid #ffffff0d;
+
+    border-radius:10px;
+}
+
+.mode-switch button{
+    flex:1;
+
+    padding:11px;
+
+    border:0;
+    border-radius:7px;
+
+    color:#65708b;
+    background:transparent;
+
+    font-size:12px;
+    font-weight:bold;
+
+    letter-spacing:1px;
+}
+
+.mode-switch button.selected{
+    color:white;
+
+    background:
+        linear-gradient(
+            90deg,
+            #704cff,
+            #5140d8
+        );
+
+    box-shadow:
+        0 0 18px #704cff35;
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+.input-box{
     display:flex;
     align-items:center;
-    justify-content:center;
-    border-radius:22px;
-    font-size:35px;
-    background:linear-gradient(135deg,#7657ff,#00cfff);
+
+    margin-bottom:14px;
+    padding:0 14px;
+
+    background:#03050c;
+
+    border:1px solid #ffffff0e;
+
+    border-radius:10px;
+
+    transition:.2s;
 }
 
-.gameLogo h1{
-    margin-top:15px;
-    font-size:32px;
+.input-box:focus-within{
+    border-color:#00eaff66;
+
+    box-shadow:
+        0 0 18px #00eaff12;
 }
 
-.gameLogo p{
-    color:#929ab8;
-    margin-top:7px;
+.input-box span{
+    font-size:16px;
+    margin-right:10px;
 }
 
-.loginTabs{
-    display:flex;
-    gap:5px;
-    padding:5px;
-    background:#080b15;
-    border-radius:12px;
-    margin-bottom:22px;
-}
+.input-box input{
+    width:100%;
 
-.loginTabs button{
-    flex:1;
-    padding:11px;
+    padding:15px 0;
+
     border:0;
-    border-radius:8px;
-    color:#9ba4c0;
+    outline:0;
+
     background:transparent;
-}
 
-.loginTabs .selected{
     color:white;
-    background:#6950ee;
 }
 
-.field{
-    margin-bottom:15px;
+.input-box input::placeholder{
+    color:#59627b;
 }
 
-.field label{
-    display:block;
-    margin-bottom:7px;
-    color:#aab2cc;
-    font-size:14px;
-}
 
-.field input{
+/* =========================
+   LOGIN BUTTON
+========================= */
+
+.enter-button{
     width:100%;
-    padding:14px;
-    border-radius:11px;
-    border:1px solid #ffffff12;
-    background:#080b15;
-    color:white;
-    outline:none;
-}
 
-.field input:focus{
-    border-color:#7657ff;
-}
+    margin-top:5px;
+    padding:15px;
 
-.action{
-    width:100%;
-    padding:14px;
     border:0;
-    border-radius:11px;
+    border-radius:10px;
+
     color:white;
+
     font-weight:bold;
-    background:linear-gradient(135deg,#7657ff,#5940df);
+    letter-spacing:2px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #704cff,
+            #00bddd
+        );
+
+    box-shadow:
+        0 8px 25px #704cff25;
+
+    transition:.2s;
+}
+
+.enter-button:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 12px 30px #00d9ff25;
+}
+
+.enter-button:active{
+    transform:scale(.98);
 }
 
 .message{
-    text-align:center;
     min-height:20px;
+
+    text-align:center;
+
     margin-top:13px;
-    font-size:14px;
+
+    font-size:13px;
 }
 
 .error{
-    color:#ff637e;
+    color:#ff5273;
 }
 
 .success{
-    color:#42e59a;
+    color:#39e59a;
 }
 
-.hide{
-    display:none!important;
+.login-footer{
+    text-align:center;
+
+    margin-top:25px;
+
+    color:#46506a;
+
+    font-size:10px;
+
+    letter-spacing:3px;
 }
 
-/* MAIN */
+
+/* =========================
+   MAIN WEBSITE
+========================= */
 
 #gamePage{
     display:none;
     min-height:100vh;
+
+    background:
+        radial-gradient(
+            circle at 15% 10%,
+            #704cff20,
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 85% 20%,
+            #00d9ff12,
+            transparent 30%
+        ),
+        #050711;
 }
+
+
+/* NAVBAR */
 
 nav{
     height:70px;
+
     padding:0 5%;
+
     display:flex;
     align-items:center;
     justify-content:space-between;
-    background:#0b0f1e;
+
+    background:#080b17dd;
+
     border-bottom:1px solid #ffffff12;
+
+    backdrop-filter:blur(15px);
+
+    position:sticky;
+    top:0;
+
+    z-index:20;
 }
 
 .brand{
     font-size:22px;
     font-weight:bold;
+    letter-spacing:1px;
 }
 
 .brand span{
     color:#00d9ff;
 }
 
+.user-area{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+#welcome{
+    color:#9ba4c0;
+    font-size:14px;
+}
+
 .logout{
     padding:9px 14px;
+
     border:1px solid #ffffff18;
+
     border-radius:9px;
+
     background:#151b30;
+
     color:white;
 }
 
+.logout:hover{
+    background:#202946;
+}
+
+
+/* HERO */
+
 .hero{
     text-align:center;
-    padding:70px 20px 45px;
+
+    padding:75px 20px 45px;
 }
 
 .hero h2{
-    font-size:clamp(38px,8vw,70px);
-    background:linear-gradient(90deg,#fff,#00d9ff,#7657ff);
+    font-size:
+        clamp(40px,8vw,75px);
+
+    line-height:1;
+
+    background:
+        linear-gradient(
+            90deg,
+            #fff,
+            #00d9ff,
+            #7657ff
+        );
+
     -webkit-background-clip:text;
     color:transparent;
 }
 
 .hero p{
+    max-width:600px;
+
+    margin:18px auto 0;
+
     color:#929ab8;
-    margin-top:15px;
+
+    line-height:1.6;
 }
+
+
+/* CONTENT */
 
 .container{
     width:92%;
     max-width:1100px;
+
     margin:auto;
 }
 
+
+/* STATS */
+
 .stats{
     display:grid;
-    grid-template-columns:repeat(3,1fr);
+
+    grid-template-columns:
+        repeat(3,1fr);
+
     gap:15px;
+
     margin-bottom:40px;
 }
 
 .stat{
     text-align:center;
-    padding:20px;
+
+    padding:22px;
+
     border-radius:17px;
+
     background:#111629;
+
     border:1px solid #ffffff12;
 }
 
 .stat b{
     display:block;
-    font-size:26px;
+
+    font-size:27px;
+
     color:#00d9ff;
+
+    margin-bottom:5px;
 }
 
 .stat span{
     color:#929ab8;
+
     font-size:13px;
+}
+
+
+/* GAME CARDS */
+
+.games-title{
+    margin-bottom:18px;
 }
 
 .games{
     display:grid;
-    grid-template-columns:repeat(2,1fr);
+
+    grid-template-columns:
+        repeat(2,1fr);
+
     gap:20px;
-    padding-bottom:60px;
+
+    padding-bottom:70px;
 }
 
 .card{
     padding:28px;
+
     border-radius:22px;
-    background:linear-gradient(145deg,#151b31,#0d1120);
+
+    background:
+        linear-gradient(
+            145deg,
+            #151b31,
+            #0d1120
+        );
+
     border:1px solid #ffffff12;
+
     transition:.25s;
 }
 
 .card:hover{
-    transform:translateY(-5px);
+    transform:translateY(-6px);
+
     border-color:#7657ff66;
+
+    box-shadow:
+        0 20px 50px #0005;
 }
 
 .icon{
     font-size:45px;
+
     margin-bottom:15px;
 }
 
 .card h3{
     font-size:25px;
+
     margin-bottom:10px;
 }
 
 .card p{
     color:#929ab8;
+
     line-height:1.5;
+
     margin-bottom:20px;
 }
 
 .play{
     border:0;
+
     padding:12px 20px;
+
     border-radius:10px;
+
     color:white;
+
     font-weight:bold;
-    background:linear-gradient(135deg,#7657ff,#00bddd);
+
+    background:
+        linear-gradient(
+            135deg,
+            #7657ff,
+            #00bddd
+        );
+
+    transition:.2s;
 }
 
-/* MODAL */
+.play:hover{
+    transform:translateY(-2px);
+}
+
+
+/* =========================
+   GAME MODALS
+========================= */
 
 .modal{
     position:fixed;
+
     inset:0;
+
     z-index:50;
+
     display:flex;
+
     align-items:center;
     justify-content:center;
+
     padding:15px;
-    background:#000b;
+
+    background:#000c;
+
+    backdrop-filter:blur(7px);
 }
 
 .gameBox{
     width:min(850px,100%);
+
     max-height:95vh;
+
     overflow:auto;
+
     padding:20px;
+
     border-radius:22px;
+
     background:#0d1222;
+
     border:1px solid #ffffff15;
+
+    box-shadow:
+        0 30px 80px #000b;
 }
 
 .gameTop{
     display:flex;
+
     justify-content:space-between;
     align-items:center;
+
     margin-bottom:15px;
+}
+
+.gameTop small{
+    color:#727c98;
 }
 
 .close{
     width:40px;
     height:40px;
+
     border:0;
+
     border-radius:9px;
+
     background:#171e35;
+
     color:white;
+
+    font-size:18px;
 }
+
+.close:hover{
+    background:#252e4b;
+}
+
+
+/* INFO */
 
 .info{
     display:flex;
+
     flex-wrap:wrap;
+
     gap:8px;
+
     margin-bottom:12px;
 }
 
 .info div{
     padding:9px 13px;
+
     border-radius:9px;
+
     background:#151b30;
+
+    color:#c1c7d9;
+}
+
+
+/* CANVAS */
+
+.canvasWrap{
+    position:relative;
 }
 
 canvas{
     display:block;
+
     width:100%;
+
     background:#050713;
+
     border-radius:14px;
+
     border:1px solid #ffffff12;
+
     touch-action:none;
 }
 
@@ -348,72 +763,117 @@ canvas{
     aspect-ratio:16/9;
 }
 
+
+/* LEVEL SCREEN */
+
+.levelScreen{
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+    align-items:center;
+
+    background:#050713dd;
+
+    border-radius:14px;
+
+    text-align:center;
+
+    padding:20px;
+}
+
+.levelScreen h2{
+    font-size:34px;
+
+    margin-bottom:10px;
+}
+
+.levelScreen p{
+    color:#a0a8c1;
+
+    margin-bottom:18px;
+}
+
+
+/* CONTROLS */
+
 .controls{
     display:flex;
+
     justify-content:center;
+
     gap:10px;
+
     margin-top:15px;
+
     flex-wrap:wrap;
 }
 
 .control{
     padding:11px 17px;
+
     border:1px solid #ffffff15;
+
     border-radius:9px;
+
     color:white;
+
     background:#151b30;
+}
+
+.control:hover{
+    background:#202946;
 }
 
 .primary{
     background:#7657ff;
 }
 
-.levelScreen{
-    position:absolute;
-    inset:0;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:center;
-    background:#050713dd;
-    border-radius:14px;
-    text-align:center;
-}
 
-.canvasWrap{
-    position:relative;
-}
-
-.levelScreen h2{
-    font-size:34px;
-    margin-bottom:10px;
-}
-
-.levelScreen p{
-    color:#a0a8c1;
-    margin-bottom:18px;
-}
+/* SNAKE */
 
 #snakeCanvas{
     max-width:500px;
+
     aspect-ratio:1;
+
     margin:auto;
 }
 
 .dpad{
     display:grid;
-    grid-template-columns:55px 55px 55px;
+
+    grid-template-columns:
+        55px 55px 55px;
+
     justify-content:center;
+
     gap:5px;
+
     margin-top:15px;
 }
 
 .dpad button{
     height:45px;
+
     border:0;
+
     border-radius:8px;
+
     background:#151b30;
+
     color:white;
+
+    font-size:18px;
+}
+
+.dpad button:active{
+    background:#7657ff;
 }
 
 .up{
@@ -432,10 +892,19 @@ canvas{
     grid-column:3;
 }
 
+
+/* =========================
+   MOBILE
+========================= */
+
 @media(max-width:700px){
 
-    .loginBox{
-        padding:25px 20px;
+    .cyber-login{
+        padding:30px 22px;
+    }
+
+    .cyber-login h1{
+        font-size:26px;
     }
 
     .stats{
@@ -449,84 +918,157 @@ canvas{
     nav{
         padding:0 4%;
     }
+
+    #welcome{
+        display:none;
+    }
+
+    .hero{
+        padding-top:50px;
+    }
+
 }
+
 </style>
 </head>
 
+
 <body>
 
-<!-- LOGIN -->
+
+<!-- =====================================================
+     LOGIN
+===================================================== -->
 
 <section id="loginPage">
 
-<div class="loginBox">
+    <div class="cyber-bg">
 
-    <div class="gameLogo">
-        <div class="logoCircle">🎮</div>
-        <h1>Guri's Game</h1>
-        <p>Enter the gaming zone</p>
+        <div class="grid"></div>
+
+        <div class="glow glow1"></div>
+
+        <div class="glow glow2"></div>
+
     </div>
 
-    <div class="loginTabs">
-        <button id="loginTab" class="selected">
-            Login
-        </button>
 
-        <button id="registerTab">
-            Register
-        </button>
+    <div class="cyber-login">
+
+        <div class="mini-logo">
+            🎮
+        </div>
+
+        <h1>GURI'S GAME</h1>
+
+        <p class="subtitle">
+            ENTER THE ARENA
+        </p>
+
+
+        <div class="mode-switch">
+
+            <button
+                id="loginTab"
+                class="selected"
+                type="button">
+
+                LOGIN
+
+            </button>
+
+            <button
+                id="registerTab"
+                type="button">
+
+                CREATE
+
+            </button>
+
+        </div>
+
+
+        <form id="authForm">
+
+            <div class="input-box">
+
+                <span>👤</span>
+
+                <input
+                    id="username"
+                    type="text"
+                    maxlength="20"
+                    autocomplete="username"
+                    placeholder="Username"
+                    required
+                >
+
+            </div>
+
+
+            <div class="input-box">
+
+                <span>🔐</span>
+
+                <input
+                    id="password"
+                    type="password"
+                    autocomplete="current-password"
+                    placeholder="Password"
+                    required
+                >
+
+            </div>
+
+
+            <div
+                id="confirmField"
+                class="input-box hidden">
+
+                <span>🔐</span>
+
+                <input
+                    id="confirmPassword"
+                    type="password"
+                    placeholder="Confirm password"
+                >
+
+            </div>
+
+
+            <button
+                id="authButton"
+                class="enter-button"
+                type="submit">
+
+                ENTER GAME
+
+            </button>
+
+
+            <div
+                id="message"
+                class="message">
+            </div>
+
+        </form>
+
+
+        <div class="login-footer">
+            ⚡ READY PLAYER?
+        </div>
+
     </div>
-
-    <form id="authForm">
-
-        <div class="field">
-            <label>Username</label>
-            <input
-                id="username"
-                type="text"
-                maxlength="20"
-                autocomplete="username"
-                placeholder="Enter username"
-                required
-            >
-        </div>
-
-        <div class="field">
-            <label>Password</label>
-            <input
-                id="password"
-                type="password"
-                autocomplete="current-password"
-                placeholder="Enter password"
-                required
-            >
-        </div>
-
-        <div id="confirmField" class="field hide">
-            <label>Confirm Password</label>
-            <input
-                id="confirmPassword"
-                type="password"
-                placeholder="Confirm password"
-            >
-        </div>
-
-        <button id="authButton" class="action" type="submit">
-            Login
-        </button>
-
-        <div id="message" class="message"></div>
-
-    </form>
-
-</div>
 
 </section>
 
 
-<!-- GAME PAGE -->
+<!-- =====================================================
+     MAIN GAME PAGE
+===================================================== -->
 
 <section id="gamePage">
+
 
 <nav>
 
@@ -534,86 +1076,147 @@ canvas{
         GURI'S <span>GAME</span>
     </div>
 
-    <div>
+
+    <div class="user-area">
+
         <span id="welcome"></span>
-        <button id="logout" class="logout">
+
+        <button
+            id="logout"
+            class="logout">
+
             Logout
+
         </button>
+
     </div>
 
 </nav>
 
+
 <header class="hero">
 
-    <h2>PLAY YOUR WAY</h2>
+    <h2>
+        PLAY YOUR WAY
+    </h2>
 
     <p>
-        Welcome to Guri's Game — choose a game and beat your records.
+        Welcome to Guri's Game —
+        choose a game and beat your records.
     </p>
 
 </header>
 
+
 <main class="container">
+
 
 <div class="stats">
 
     <div class="stat">
-        <b id="gamesPlayed">0</b>
-        <span>Games Played</span>
+
+        <b id="gamesPlayed">
+            0
+        </b>
+
+        <span>
+            Games Played
+        </span>
+
     </div>
 
-    <div class="stat">
-        <b id="bestScore">0</b>
-        <span>Best Score</span>
-    </div>
 
     <div class="stat">
-        <b id="highestLevel">1</b>
-        <span>Highest Level</span>
+
+        <b id="bestScore">
+            0
+        </b>
+
+        <span>
+            Best Score
+        </span>
+
+    </div>
+
+
+    <div class="stat">
+
+        <b id="highestLevel">
+            1
+        </b>
+
+        <span>
+            Highest Level
+        </span>
+
     </div>
 
 </div>
 
-<h2 style="margin-bottom:18px">
+
+<h2 class="games-title">
     🎮 Games
 </h2>
 
+
 <div class="games">
 
-    <div class="card">
 
-        <div class="icon">🔫</div>
+<!-- SHOOTER -->
 
-        <h3>Neon Shooter</h3>
+<div class="card">
 
-        <p>
-            Destroy enemies and progress through increasingly
-            difficult levels.
-        </p>
-
-        <button id="openShooter" class="play">
-            PLAY NOW
-        </button>
-
+    <div class="icon">
+        🔫
     </div>
 
+    <h3>
+        Neon Shooter
+    </h3>
 
-    <div class="card">
+    <p>
+        Destroy enemies and progress
+        through increasingly difficult levels.
+    </p>
 
-        <div class="icon">🐍</div>
+    <button
+        id="openShooter"
+        class="play">
 
-        <h3>Neon Snake</h3>
+        PLAY NOW
 
-        <p>
-            Eat the glowing food, grow longer and try to beat
-            your highest score.
-        </p>
+    </button>
 
-        <button id="openSnake" class="play">
-            PLAY NOW
-        </button>
+</div>
 
+
+<!-- SNAKE -->
+
+<div class="card">
+
+    <div class="icon">
+        🐍
     </div>
+
+    <h3>
+        Neon Snake
+    </h3>
+
+    <p>
+        Eat the glowing food, grow longer
+        and try to beat your highest score.
+    </p>
+
+    <button
+        id="openSnake"
+        class="play">
+
+        PLAY NOW
+
+    </button>
+
+</div>
+
 
 </div>
 
@@ -622,33 +1225,67 @@ canvas{
 </section>
 
 
-<!-- SHOOTER -->
+<!-- =====================================================
+     SHOOTER MODAL
+===================================================== -->
 
-<div id="shooterModal" class="modal hide">
+<div
+    id="shooterModal"
+    class="modal hidden">
 
 <div class="gameBox">
+
 
 <div class="gameTop">
 
     <div>
-        <h2>🔫 Neon Shooter</h2>
-        <small>Tap the enemies!</small>
+
+        <h2>
+            🔫 Neon Shooter
+        </h2>
+
+        <small>
+            Tap the enemies!
+        </small>
+
     </div>
 
-    <button id="closeShooter" class="close">
+
+    <button
+        id="closeShooter"
+        class="close">
+
         ✕
+
     </button>
 
 </div>
 
+
 <div class="info">
 
-    <div>Level: <b id="shootLevel">1</b></div>
-    <div>Score: <b id="shootScore">0</b></div>
-    <div>Health: <b id="shootHealth">100</b></div>
-    <div>Enemies: <b id="shootEnemies">0</b></div>
+    <div>
+        Level:
+        <b id="shootLevel">1</b>
+    </div>
+
+    <div>
+        Score:
+        <b id="shootScore">0</b>
+    </div>
+
+    <div>
+        Health:
+        <b id="shootHealth">100</b>
+    </div>
+
+    <div>
+        Enemies:
+        <b id="shootEnemies">0</b>
+    </div>
 
 </div>
+
 
 <div class="canvasWrap">
 
@@ -658,7 +1295,10 @@ canvas{
     height="428">
 </canvas>
 
-<div id="levelScreen" class="levelScreen">
+
+<div
+    id="levelScreen"
+    class="levelScreen">
 
     <h2 id="levelTitle">
         LEVEL 1
@@ -668,56 +1308,97 @@ canvas{
         Destroy the enemies!
     </p>
 
-    <button id="startLevel" class="play">
+    <button
+        id="startLevel"
+        class="play">
+
         START
+
     </button>
 
 </div>
 
 </div>
+
 
 <div class="controls">
 
-    <button id="restartShooter" class="control">
+    <button
+        id="restartShooter"
+        class="control">
+
         🔄 Restart
+
     </button>
 
-    <button id="nextLevel" class="control">
+
+    <button
+        id="nextLevel"
+        class="control">
+
         ⏭ Next Level
+
     </button>
 
 </div>
 
-</div>
 
 </div>
 
+</div>
 
-<!-- SNAKE -->
 
-<div id="snakeModal" class="modal hide">
+<!-- =====================================================
+     SNAKE MODAL
+===================================================== -->
+
+<div
+    id="snakeModal"
+    class="modal hidden">
 
 <div class="gameBox">
+
 
 <div class="gameTop">
 
     <div>
-        <h2>🐍 Neon Snake</h2>
-        <small>Use arrows/WASD or mobile controls</small>
+
+        <h2>
+            🐍 Neon Snake
+        </h2>
+
+        <small>
+            Use arrows/WASD or mobile controls
+        </small>
+
     </div>
 
-    <button id="closeSnake" class="close">
+
+    <button
+        id="closeSnake"
+        class="close">
+
         ✕
+
     </button>
 
 </div>
 
+
 <div class="info">
 
-    <div>Score: <b id="snakeScore">0</b></div>
-    <div>Best: <b id="snakeBest">0</b></div>
+    <div>
+        Score:
+        <b id="snakeScore">0</b>
+    </div>
+
+    <div>
+        Best:
+        <b id="snakeBest">0</b>
+    </div>
 
 </div>
+
 
 <canvas
     id="snakeCanvas"
@@ -725,22 +1406,56 @@ canvas{
     height="500">
 </canvas>
 
+
 <div class="controls">
 
-    <button id="restartSnake" class="control primary">
+    <button
+        id="restartSnake"
+        class="control primary">
+
         🔄 Restart Snake
+
     </button>
 
 </div>
 
+
 <div class="dpad">
 
-    <button class="up" data-dir="up">▲</button>
-    <button class="left" data-dir="left">◀</button>
-    <button class="down" data-dir="down">▼</button>
-    <button class="right" data-dir="right">▶</button>
+    <button
+        class="up"
+        data-dir="up">
+
+        ▲
+
+    </button>
+
+    <button
+        class="left"
+        data-dir="left">
+
+        ◀
+
+    </button>
+
+    <button
+        class="down"
+        data-dir="down">
+
+        ▼
+
+    </button>
+
+    <button
+        class="right"
+        data-dir="right">
+
+        ▶
+
+    </button>
 
 </div>
+
 
 </div>
 
@@ -749,545 +1464,132 @@ canvas{
 
 <script>
 
-/* =========================
+/* =====================================================
    ACCOUNT SYSTEM
-========================= */
+===================================================== */
 
-const USERS_KEY = "guris_game_users";
-const SESSION_KEY = "guris_game_session";
-const STATS_KEY = "guris_game_stats";
+const USERS_KEY="guris_game_users";
+const SESSION_KEY="guris_game_session";
+const STATS_KEY="guris_game_stats";
 
-let users = {};
+let users={};
 
 try{
-    users = JSON.parse(
-        localStorage.getItem(USERS_KEY) || "{}"
-    );
-}catch{
-    users = {};
+
+    users=
+        JSON.parse(
+            localStorage.getItem(
+                USERS_KEY
+            ) || "{}"
+        );
+
+}catch(error){
+
+    console.error(error);
+
+    users={};
+
 }
 
-let mode = "login";
+
+let authMode="login";
 
 
-const loginPage =
-    document.getElementById("loginPage");
+const loginPage=
+    document.getElementById(
+        "loginPage"
+    );
 
-const gamePage =
-    document.getElementById("gamePage");
+const gamePage=
+    document.getElementById(
+        "gamePage"
+    );
 
-const loginTab =
-    document.getElementById("loginTab");
+const loginTab=
+    document.getElementById(
+        "loginTab"
+    );
 
-const registerTab =
-    document.getElementById("registerTab");
+const registerTab=
+    document.getElementById(
+        "registerTab"
+    );
 
-const confirmField =
-    document.getElementById("confirmField");
+const confirmField=
+    document.getElementById(
+        "confirmField"
+    );
 
-const authButton =
-    document.getElementById("authButton");
+const authButton=
+    document.getElementById(
+        "authButton"
+    );
 
-const message =
-    document.getElementById("message");
+const message=
+    document.getElementById(
+        "message"
+    );
 
 
-function switchMode(newMode){
+/* SWITCH LOGIN / REGISTER */
 
-    mode = newMode;
+function switchMode(mode){
+
+    authMode=mode;
 
     loginTab.classList.toggle(
         "selected",
-        mode === "login"
+        mode==="login"
     );
 
     registerTab.classList.toggle(
         "selected",
-        mode === "register"
+        mode==="register"
     );
+
 
     confirmField.classList.toggle(
-        "hide",
-        mode !== "register"
+        "hidden",
+        mode!=="register"
     );
 
-    document.getElementById("confirmPassword").required =
-        mode === "register";
 
-    authButton.textContent =
-        mode === "login"
-        ? "Login"
-        : "Create Account";
+    document
+        .getElementById(
+            "confirmPassword"
+        )
+        .required =
+        mode==="register";
 
-    message.textContent = "";
+
+    authButton.textContent=
+        mode==="login"
+        ? "ENTER GAME"
+        : "CREATE ACCOUNT";
+
+
+    message.textContent="";
 
 }
 
 
-loginTab.onclick =
-    () => switchMode("login");
+loginTab.addEventListener(
+    "click",
+    ()=>{
+        switchMode("login");
+    }
+);
 
-registerTab.onclick =
-    () => switchMode("register");
 
+registerTab.addEventListener(
+    "click",
+    ()=>{
+        switchMode("register");
+    }
+);
+
+
+/* AUTH FORM */
 
 document
-.getElementById("authForm")
-.addEventListener("submit",function(e){
-
-    e.preventDefault();
-
-    const username =
-        document.getElementById("username")
-        .value.trim();
-
-    const password =
-        document.getElementById("password")
-        .value;
-
-    const confirm =
-        document.getElementById("confirmPassword")
-        .value;
-
-
-    if(username.length < 3){
-
-        showMessage(
-            "Username must be at least 3 characters.",
-            false
-        );
-
-        return;
-    }
-
-
-    if(password.length < 4){
-
-        showMessage(
-            "Password must be at least 4 characters.",
-            false
-        );
-
-        return;
-    }
-
-
-    if(mode === "register"){
-
-        if(users[username]){
-
-            showMessage(
-                "Username already exists.",
-                false
-            );
-
-            return;
-        }
-
-
-        if(password !== confirm){
-
-            showMessage(
-                "Passwords do not match.",
-                false
-            );
-
-            return;
-        }
-
-
-        users[username] = {
-            password:password
-        };
-
-
-        try{
-
-            localStorage.setItem(
-                USERS_KEY,
-                JSON.stringify(users)
-            );
-
-            localStorage.setItem(
-                SESSION_KEY,
-                username
-            );
-
-        }catch{
-
-            showMessage(
-                "Browser storage is unavailable.",
-                false
-            );
-
-            return;
-        }
-
-
-        showMessage(
-            "Account created!",
-            true
-        );
-
-        setTimeout(showGamePage,500);
-
-        return;
-    }
-
-
-    if(!users[username]){
-
-        showMessage(
-            "Account doesn't exist. Register first.",
-            false
-        );
-
-        return;
-    }
-
-
-    if(users[username].password !== password){
-
-        showMessage(
-            "Wrong password.",
-            false
-        );
-
-        return;
-    }
-
-
-    localStorage.setItem(
-        SESSION_KEY,
-        username
-    );
-
-    showMessage(
-        "Login successful!",
-        true
-    );
-
-    setTimeout(showGamePage,400);
-
-});
-
-
-function showMessage(text,good){
-
-    message.textContent = text;
-
-    message.className =
-        "message " +
-        (good ? "success" : "error");
-
-}
-
-
-function showGamePage(){
-
-    loginPage.style.display="none";
-    gamePage.style.display="block";
-
-    const username =
-        localStorage.getItem(SESSION_KEY);
-
-    document.getElementById("welcome")
-        .textContent =
-        "👋 " + username;
-
-    updateStats();
-
-}
-
-
-function logout(){
-
-    localStorage.removeItem(SESSION_KEY);
-
-    stopShooter();
-    stopSnake();
-
-    document.getElementById("shooterModal")
-        .classList.add("hide");
-
-    document.getElementById("snakeModal")
-        .classList.add("hide");
-
-    gamePage.style.display="none";
-    loginPage.style.display="flex";
-
-    document.getElementById("authForm").reset();
-
-    switchMode("login");
-
-}
-
-
-document
-.getElementById("logout")
-.addEventListener("click",logout);
-
-
-/* =========================
-   STATS
-========================= */
-
-function getStats(){
-
-    const username =
-        localStorage.getItem(SESSION_KEY);
-
-    if(!username){
-
-        return {
-            gamesPlayed:0,
-            bestScore:0,
-            highestLevel:1
-        };
-
-    }
-
-    try{
-
-        const all =
-            JSON.parse(
-                localStorage.getItem(STATS_KEY) || "{}"
-            );
-
-        return all[username] || {
-            gamesPlayed:0,
-            bestScore:0,
-            highestLevel:1
-        };
-
-    }catch{
-
-        return {
-            gamesPlayed:0,
-            bestScore:0,
-            highestLevel:1
-        };
-
-    }
-
-}
-
-
-function saveStats(stats){
-
-    const username =
-        localStorage.getItem(SESSION_KEY);
-
-    if(!username) return;
-
-    let all={};
-
-    try{
-        all =
-            JSON.parse(
-                localStorage.getItem(STATS_KEY) || "{}"
-            );
-    }catch{}
-
-    all[username]=stats;
-
-    localStorage.setItem(
-        STATS_KEY,
-        JSON.stringify(all)
-    );
-
-}
-
-
-function recordGame(score,level){
-
-    const stats=getStats();
-
-    stats.gamesPlayed++;
-
-    stats.bestScore =
-        Math.max(
-            stats.bestScore,
-            score
-        );
-
-    stats.highestLevel =
-        Math.max(
-            stats.highestLevel,
-            level
-        );
-
-    saveStats(stats);
-    updateStats();
-
-}
-
-
-function updateStats(){
-
-    const stats=getStats();
-
-    document.getElementById("gamesPlayed")
-        .textContent=stats.gamesPlayed;
-
-    document.getElementById("bestScore")
-        .textContent=stats.bestScore;
-
-    document.getElementById("highestLevel")
-        .textContent=stats.highestLevel;
-
-}
-
-
-/* =========================
-   SHOOTER
-========================= */
-
-const shooter =
-    document.getElementById("shooterCanvas");
-
-const ctx =
-    shooter.getContext("2d");
-
-let running=false;
-let animation=null;
-let level=1;
-let score=0;
-let health=100;
-let enemies=[];
-let kills=0;
-let target=6;
-let lastTime=0;
-let spawnTimer=0;
-
-
-function shooterUI(){
-
-    document.getElementById("shootLevel")
-        .textContent=level;
-
-    document.getElementById("shootScore")
-        .textContent=score;
-
-    document.getElementById("shootHealth")
-        .textContent=Math.max(
-            0,
-            Math.round(health)
-        );
-
-    document.getElementById("shootEnemies")
-        .textContent=enemies.length;
-
-}
-
-
-function prepareLevel(){
-
-    stopShooter();
-
-    enemies=[];
-    kills=0;
-    health=100;
-
-    target=4+level*2;
-
-    document.getElementById("levelTitle")
-        .textContent="LEVEL "+level;
-
-    document.getElementById("levelText")
-        .textContent=
-        "Destroy "+target+" enemies!";
-
-    document.getElementById("levelScreen")
-        .classList.remove("hide");
-
-    shooterUI();
-
-    drawBackground();
-
-}
-
-
-function startLevel(){
-
-    if(running)return;
-
-    running=true;
-    lastTime=performance.now();
-
-    document.getElementById("levelScreen")
-        .classList.add("hide");
-
-    animation =
-        requestAnimationFrame(loop);
-
-}
-
-
-function spawnEnemy(){
-
-    enemies.push({
-
-        x:30+
-            Math.random()*
-            (shooter.width-60),
-
-        y:30+
-            Math.random()*
-            (shooter.height-60),
-
-        r:15+Math.random()*8,
-
-        dx:(Math.random()-.5)*
-            (30+level*8),
-
-        dy:(Math.random()-.5)*
-            (30+level*8)
-
-    });
-
-}
-
-
-function drawBackground(){
-
-    ctx.fillStyle="#050713";
-
-    ctx.fillRect(
-        0,
-        0,
-        shooter.width,
-        shooter.height
-    );
-
-    ctx.strokeStyle="#ffffff08";
-
-    for(let x=0;x<shooter.width;x+=40){
-
-        ctx.beginPath();
-        ctx.moveTo(x,0);
-        ctx.lineTo(x,shooter.height);
-        ctx.stroke();
-
-    }
-
-    for(let y=0;y<shooter.height;y+=40){
-
-        ctx.beginPath();
-        ctx.moveTo(0,y);
-        ctx.lineTo(shooter.width,y);
-        ctx.stroke();
-
-    }
-
-}
-
-
-function drawEnemy(e){
-
-    ctx.save();
-
-    ctx.shadowBlur=20;
-    ctx.shadowColor="#ff3d68";
-
-  
+.getElementById(
