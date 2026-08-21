@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>GameVerse</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #0b1020;
+    color: white;
+    min-height: 100vh;
+}
+
+/* ================= LOGIN ================= */
+
+#loginPage {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background:
+        radial-gradient(circle at top, #253b80, transparent 40%),
+        #0b1020;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 400px;
+    background: rgba(20, 27, 50, 0.95);
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(0, 140, 255, 0.3);
+    text-align: center;
+}
+
+.logo {
+    font-size: 40px;
+    font-weight: bold;
+    color: #42a5ff;
+    margin-bottom: 10px;
+}
+
+.login-box p {
+    color: #aaa;
+    margin-bottom: 25px;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 14px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 10px;
+    background: #252d48;
+    color: white;
+    outline: none;
+}
+
+.login-box input:focus {
+    border: 1px solid #42a5ff;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 10px;
+    background: #1677ff;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.login-box button:hover {
+    background: #3990ff;
+}
+
+#error {
+    color: #ff5555;
+    margin-top: 12px;
+}
+
+/* ================= DASHBOARD ================= */
+
+#dashboard {
+    display: none;
+}
+
+header {
+    background: #121a31;
+    padding: 18px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #263354;
+}
+
+header h1 {
+    color: #42a5ff;
+}
+
+.logout {
+    background: #ff4757;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    color: white;
+    cursor: pointer;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 30px 20px;
+}
+
+.welcome {
+    margin-bottom: 25px;
+}
+
+.welcome h2 {
+    font-size: 30px;
+}
+
+.welcome p {
+    color: #aaa;
+    margin-top: 5px;
+}
+
+/* ================= GAME CARDS ================= */
+
+.games {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.game-card {
+    background: #151e38;
+    border: 1px solid #263354;
+    border-radius: 18px;
+    padding: 25px;
+    text-align: center;
+    transition: 0.25s;
+}
+
+.game-card:hover {
+    transform: translateY(-6px);
+    border-color: #42a5ff;
+    box-shadow: 0 10px 30px rgba(0, 140, 255, 0.2);
+}
+
+.game-icon {
+    font-size: 55px;
+    margin-bottom: 15px;
+}
+
+.game-card h3 {
+    margin-bottom: 8px;
+}
+
+.game-card p {
+    color: #999;
+    margin-bottom: 18px;
+}
+
+.play-btn {
+    background: #1677ff;
+    border: none;
+    color: white;
+    padding: 11px 25px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* ================= GAME AREA ================= */
+
+#gameArea {
+    display: none;
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.back-btn {
+    background: #303b5d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+#gameTitle {
+    margin-bottom: 20px;
+}
+
+/* ================= TIC TAC TOE ================= */
+
+.tic-board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px);
+    gap: 8px;
+    justify-content: center;
+}
+
+.tic-cell {
+    width: 100px;
+    height: 100px;
+    background: #1c2745;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+/* ================= CLICKER ================= */
+
+.clicker-score {
+    font-size: 35px;
+    margin: 20px;
+}
+
+.big-click {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: none;
+    background: #1677ff;
+    color: white;
+    font-size: 25px;
+    cursor: pointer;
+    box-shadow: 0 0 30px rgba(22,119,255,0.5);
+}
+
+.big-click:active {
+    transform: scale(0.95);
+}
+
+/* ================= MEMORY ================= */
+
+.memory-board {
+    display: grid;
+    grid-template-columns: repeat(4, 80px);
+    gap: 10px;
+    justify-content: center;
+}
+
+.memory-card {
+    width: 80px;
+    height: 80px;
+    background: #1c2745;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* ================= SNAKE ================= */
+
+#snakeCanvas {
+    background: black;
+    border: 2px solid #42a5ff;
+    max-width: 100%;
+}
+
+/* ================= MOBILE ================= */
+
+@media(max-width:600px) {
+
+    header {
+        padding: 15px;
+    }
+
+    header h1 {
+        font-size: 22px;
+    }
+
+    .welcome h2 {
+        font-size: 24px;
+    }
+
+    .tic-board {
+        grid-template-columns: repeat(3, 80px);
+    }
+
+    .tic-cell {
+        width: 80px;
+        height: 80px;
+    }
+
+    .memory-board {
+        grid-template-columns: repeat(4, 65px);
+    }
+
+    .memory-card {
+        width: 65px;
+        height: 65px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= LOGIN ================= -->
+
+<section id="loginPage">
+
+    <div class="login-box">
+
+        <div class="logo">🎮 GameVerse</div>
+
+        <p>Play multiple games in one place</p>
+
+        <input
+            type="text"
+            id="username"
+            placeholder="Enter username"
+        >
+
+        <input
+            type="password"
+            id="password"
+            placeholder="Enter password"
+        >
+
+        <button onclick="login()">LOGIN</button>
+
+        <div id="error"></div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section id="dashboard">
+
+<header>
+
+    <h1>🎮 GameVerse</h1>
+
+    <button class="logout" onclick="logout()">
+        Logout
+    </button>
+
+</header>
+
+<div class="container">
+
+    <div class="welcome">
+
+        <h2>
+            Welcome, <span id="playerName"></span> 👋
+        </h2>
+
+        <p>
+            Choose a game and start playing!
+        </p>
+
+    </div>
+
+    <div class="games">
+
+        <div class="game-card">
+
+            <div class="game-icon">❌⭕</div>
+
+            <h3>Tic-Tac-Toe</h3>
+
+            <p>Classic 2-player game</p>
+
+            <button
+                class="play-btn"
+                onclick="openGame('tic')">
+                PLAY
+            </button>
+
+        </div>
+
+
+        <div class="game-card">
+
+            <div class="game-icon">🐍</div>
+
+            <h3>Snake</h3>
+
+            <p>Eat food and grow!</p>
+
+            <button
+                class="play-btn"
+                onclick="openGame('snake')">
+                PLAY
+            </button>
+
+        </div>
+
+
+        <div class="game-card">
+
+            <div class="game-icon">🧠</div>
+
+            <h3>Memory Match</h3>
+
+            <p>Find matching cards</p>
+
+            <button
+                class="play-btn"
+                onclick="openGame('memory')">
+                PLAY
+            </button>
+
+        </div>
+
+
+        <div class="game-card">
+
+            <div class="game-icon">🖱️</div>
+
+            <h3>Clicker</h3>
+
+            <p>Click as fast as you can!</p>
+
+            <button
+                class="play-btn"
+                onclick="openGame('clicker')">
+                PLAY
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= GAME AREA ================= -->
+
+<div id="gameArea">
+
+    <button class="back-btn" onclick="backToMenu()">
+        ← Back to Games
+    </button>
+
+    <h2 id="gameTitle"></h2>
+
+    <div id="gameContent"></div>
+
+</div>
+
+</section>
+
+
+<script>
+
+/* ================= LOGIN ================= */
+
+function login() {
+
+    let username =
+        document.getElementById("username").value;
+
+    let password =
+        document.getElementById("password").value;
+
+    if(username === "" || password === "") {
+
+        document.getElementById("error").innerText =
+            "Please enter username and password.";
+
+        return;
+    }
+
+    document.getElementById("loginPage").style.display =
+        "none";
+
+    document.getElementById("dashboard").style.display =
+        "block";
+
+    document.getElementById("playerName").innerText =
+        username;
+}
+
+
+function logout() {
+
+    document.getElementById("dashboard").style.display =
+        "none";
+
+    document.getElementById("loginPage").style.display =
+        "flex";
+
+}
+
+
+/* ================= GAME SYSTEM ================= */
+
+function openGame(game) {
+
+    document.querySelector(".container").style.display =
+        "none";
+
+    document.getElementById("gameArea").style.display =
+        "block";
+
+    if(game === "tic") {
+        ticTacToe();
+    }
+
+    if(game === "clicker") {
+        clicker();
+    }
+
+    if(game === "memory") {
+        memoryGame();
+    }
+
+    if(game === "snake") {
+        snakeGame();
+    }
+
+}
+
+
+function backToMenu() {
+
+    document.getElementById("gameArea").style.display =
+        "none";
+
+    document.querySelector(".container").style.display =
+        "block";
+
+}
+
+
+/* ================= TIC TAC TOE ================= */
+
+function ticTacToe() {
+
+    document.getElementById("gameTitle").innerText =
+        "❌⭕ Tic-Tac-Toe";
+
+    let html = `
+        <div class="tic-board" id="ticBoard"></div>
+
+        <br>
+
+        <h3 id="ticStatus">Player X's turn</h3>
+
+        <br>
+
+        <button class="play-btn" onclick="ticTacToe()">
+            Restart
+        </button>
+    `;
+
+    document.getElementById("gameContent").innerHTML =
+        html;
+
+    let board =
+        ["","","","","","","","",""];
+
+    let player = "X";
+
+    let cells = "";
+
+    for(let i = 0; i < 9; i++) {
+
+        cells += `
+            <div class="tic-cell"
+                 onclick="makeMove(${i})">
+            </div>
+        `;
+
+    }
+
+    document.getElementById("ticBoard").innerHTML =
+        cells;
+
+    window.ticBoardData = board;
+    window.ticPlayer = player;
+
+}
+
+
+function makeMove(index) {
+
+    if(window.ticBoardData[index] !== "")
+        return;
+
+    window.ticBoardData[index] =
+        window.ticPlayer;
+
+    document.querySelectorAll(".tic-cell")[index]
+        .innerText = window.ticPlayer;
+
+    if(checkWinner()) {
+
+        document.getElementById("ticStatus")
+            .innerText =
+            "🎉 Player " +
+            window.ticPlayer +
+            " wins!";
+
+        return;
+    }
+
+    window.ticPlayer =
+        window.ticPlayer === "X" ? "O" : "X";
+
+    document.getElementById("ticStatus")
+        .innerText =
+        "Player " +
+        window.ticPlayer +
+        "'s turn";
+}
+
+
+function checkWinner() {
+
+    const wins = [
+
+        [0,1,2],
+        [3,4,5],
+        [6,7,8],
+
+        [0,3,6],
+        [1,4,7],
+        [2,5,8],
+
+        [0,4,8],
+        [2,4,6]
+
+    ];
+
+    return wins.some(combo => {
+
+        let a =
+            window.ticBoardData[combo[0]];
+
+        let b =
+            window.ticBoardData[combo[1]];
+
+        let c =
+            window.ticBoardData[combo[2]];
+
+        return a && a === b && b === c;
+
+    });
+
+}
+
+
+/* ================= CLICKER ================= */
+
+function clicker() {
+
+    document.getElementById("gameTitle").innerText =
+        "🖱️ Clicker";
+
+    document.getElementById("gameContent").innerHTML = `
+
+        <div class="clicker-score">
+            Score:
+            <span id="clickScore">0</span>
+        </div>
+
+        <button class="big-click"
+                onclick="addClick()">
+            CLICK!
+        </button>
+
+    `;
+
+    window.clickScore = 0;
+
+}
+
+
+function addClick() {
+
+    window.clickScore++;
+
+    document.getElementById("clickScore")
+        .innerText = window.clickScore;
+
+}
+
+
+/* ================= MEMORY ================= */
+
+function memoryGame() {
+
+    document.getElementById("gameTitle").innerText =
+        "🧠 Memory Match";
+
+    let symbols =
+        ["🍎","🍎","🍕","🍕","🚗","🚗","⭐","⭐"];
+
+    symbols.sort(() => Math.random() - 0.5);
+
+    let html =
+        `<div class="memory-board">`;
+
+    symbols.forEach((symbol, index) => {
+
+        html += `
+            <div class="memory-card"
+                 onclick="flipCard(this, '${symbol}')">
+                ❓
+            </div>
+        `;
+
+    });
+
+    html += `</div>`;
+
+    document.getElementById("gameContent").innerHTML =
+        html;
+
+    window.firstCard = null;
+    window.lockBoard = false;
+
+}
+
+
+function flipCard(card, symbol) {
+
+    if(window.lockBoard)
+        return;
+
+    if(card.innerText !== "❓")
+        return;
+
+    card.innerText = symbol;
+
+    if(!window.firstCard) {
+
+        window.firstCard = {
+            card: card,
+            symbol: symbol
+        };
+
+        return;
+    }
+
+    if(window.firstCard.symbol === symbol) {
+
+        window.firstCard = null;
+
+    } else {
+
+        window.lockBoard = true;
+
+        let first = window.firstCard.card;
+
+        setTimeout(() => {
+
+            first.innerText = "❓";
+            card.innerText = "❓";
+
+            window.firstCard = null;
+            window.lockBoard = false;
+
+        }, 700);
+
+    }
+
+}
+
+
+/* ================= SNAKE ================= */
+
+function snakeGame() {
+
+    document.getElementById("gameTitle").innerText =
+        "🐍 Snake";
+
+    document.getElementById("gameContent").innerHTML = `
+
+        <canvas
+            id="snakeCanvas"
+            width="400"
+            height="400">
+        </canvas>
+
+        <p style="margin-top:15px;">
+            Use Arrow Keys or swipe on mobile
+        </p>
+
+        <br>
+
+        <button class="play-btn"
+                onclick="startSnake()">
+            Start Snake
+        </button>
+
+    `;
+
+}
+
+
+function startSnake() {
+
+    const canvas =
+        document.getElementById("snakeCanvas");
+
+    const ctx =
+        canvas.getContext("2d");
+
+    let snake = [
+        {x: 200, y: 200}
+    ];
+
+    let food = {
+        x: 100,
+        y: 100
+    };
+
+    let dx = 20;
+    let dy = 0;
+
+    document.onkeydown = function(e) {
+
+        if(e.key === "ArrowUp" && dy === 0) {
+            dx = 0;
+            dy = -20;
+        }
+
+        if(e.key === "ArrowDown" && dy === 0) {
+            dx = 0;
+            dy = 20;
+        }
+
+        if(e.key === "ArrowLeft" && dx === 0) {
+            dx = -20;
+            dy = 0;
+        }
+
+        if(e.key === "ArrowRight" && dx === 0) {
+            dx = 20;
+            dy = 0;
+        }
+
+    };
+
+
+    function gameLoop() {
+
+        let head = {
+            x: snake[0].x + dx,
+            y: snake[0].y + dy
+        };
+
+        if(
+            head.x < 0 ||
+            head.y < 0 ||
+            head.x >= 400 ||
+            head.y >= 400
+        ) {
+
+            alert("Game Over!");
+
+            return;
+        }
+
+
+        snake.unshift(head);
+
+
+        if(
+            head.x === food.x &&
+            head.y === food.y
+        ) {
+
+            food.x =
+                Math.floor(Math.random() * 20) * 20;
+
+            food.y =
+                Math.floor(Math.random() * 20) * 20;
+
+        } else {
+
+            snake.pop();
+
+        }
+
+
+        ctx.clearRect(0,0,400,400);
+
+
+        ctx.fillStyle = "lime";
+
+        snake.forEach(part => {
+
+            ctx.fillRect(
+                part.x,
+                part.y,
+                18,
+                18
+            );
+
+        });
+
+
+        ctx.fillStyle = "red";
+
+        ctx.fillRect(
+            food.x,
+            food.y,
+            18,
+            18
+        );
+
+    }
+
+    setInterval(gameLoop, 120);
+
+}
+
+</script>
+
+</body>
+              </html>
